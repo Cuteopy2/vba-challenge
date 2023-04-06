@@ -1,0 +1,104 @@
+Sub mdStocksAnalysis()
+
+    ' Declare variables
+    Dim wksheet As Worksheet
+    Dim LastRow As Long, LastCol As Integer, i As Long
+    Dim Ticker As String, OpenPrice As Double, ClosePrice As Double, YearlyChange As Double
+    Dim PercentChange As Double, TotalVolume As Double
+    Dim SummaryRow As Integer
+    Dim GreatestIncreaseTicker As String, GreatestDecreaseTicker As String, GreatestTotalVolumeTicker As String
+    
+    
+    ' #########################################################################################
+    ' LOOP THROUGH ALL THE WORKSHEETS AVAILABLE AND PERFORM THE NECESSARY ACTIONS
+    '##########################################################################################
+    For Each wksheet In ThisWorkbook.Worksheets
+        ' Initialize variables for each worksheet
+        SummaryRow = 2
+        GreatestIncrease = 0
+        GreatestDecrease = 0
+        GreatestTotalVolume = 0
+        
+        ' Set the headers for the summary table
+        With wksheet
+            .Range("I1").Value = "Ticker"
+            .Range("J1").Value = "Yearly Change"
+            .Range("K1").Value = "Percent Change"
+            .Range("L1").Value = "Total Volume"
+            
+            
+            ' Find the last row and column in the worksheet
+            LastRow = .Cells(.Rows.Count, 1).End(xlUp).Row
+            LastCol = .Cells(1, .Columns.Count).End(xlToLeft).Column
+            
+            ' Loop through each row in the data table
+            For i = 2 To LastRow
+                ' Check if the current ticker is different from the previous ticker
+                If .Cells(i, 1).Value <> Ticker Then
+                    ' Store the opening price of the new stock
+                    Ticker = .Cells(i, 1).Value
+                    OpenPrice = .Cells(i, 3).Value
+                    TotalVolume = 0
+                End If
+                
+                ' Calculate the total volume for the stock
+                TotalVolume = TotalVolume + .Cells(i, 7).Value
+                
+                ' Check if the current ticker is different from the next ticker or if the current row is the last row
+                If i = LastRow Or .Cells(i + 1, 1).Value <> Ticker Then
+                    ' Store the closing price of the stock
+                    ClosePrice = .Cells(i, 6).Value
+                    
+                    ' Calculate the yearly change and percent change
+                    YearlyChange = ClosePrice - OpenPrice
+                    If OpenPrice <> 0 Then
+                        PercentChange = (YearlyChange / OpenPrice) * 100
+                    Else
+                        PercentChange = 0
+                    End If
+                    
+                    ' Update the summary table with calculated values
+                    .Cells(SummaryRow, 9).Value = Ticker
+                    .Cells(SummaryRow, 10).Value = YearlyChange
+                    .Cells(SummaryRow, 11).Value = PercentChange & "%"
+                    .Cells(SummaryRow, 12).Value = TotalVolume
+                    SummaryRow = SummaryRow + 1
+                    
+                    ' Check and update the Greatest Increase, Greatest Decrease, and Greatest Total Volume'
+                    If PercentChange > GreatestIncrease Then
+                        GreatestIncrease = PercentChange
+                        GreatestIncreaseTicker = Ticker
+                    End If
+                    
+                    If PercentChange < GreatestDecrease Then
+                        GreatestDecrease = PercentChange
+                        GreatestDecreaseTicker = Ticker
+                    End If
+                    
+                    If TotalVolume > GreatestTotalVolume Then
+                        GreatestTotalVolume = TotalVolume
+                        GreatestTotalVolumeTicker = Ticker
+                    End If
+                End If
+            Next i
+            
+            ' Output the Greatest Increase, Greatest Decrease, and Greatest Total volume'
+            .Range("O2").Value = "Greatest Increase"
+            .Range("O3").Value = "Greatest Decrease"
+            .Range("O4").Value = "Greatest Total Volume"
+            .Range("P2").Value = GreatestIncreaseTicker
+            .Range("P3").Value = GreatestDecreaseTicker
+            .Range("P4").Value = GreatestTotalVolumeTicker
+            .Range("Q2").Value = GreatestIncrease & "%"
+            .Range("Q3").Value = GreatestDecrease & "%"
+            .Range("Q4").Value = GreatestTotalVolume
+            
+            ' Apply conditional formatting for positive change in green and negative change in red
+            .Range("J2:J" & SummaryRow - 1).FormatConditions.Add Type:=xlCellValue, Operator:=xlGreater, Formula1:="=0"
+            .Range("J2:J" & SummaryRow - 1).FormatConditions(1).Interior.Color = RGB(0, 255, 0)
+            .Range("J2:J" & SummaryRow - 1).FormatConditions.Add Type:=xlCellValue, Operator:=xlLess, Formula1:="=0"
+            .Range("J2:J" & SummaryRow - 1).FormatConditions(2).Interior.Color = RGB(255, 0, 0)
+        End With
+    Next wksheet
+End Sub
+
