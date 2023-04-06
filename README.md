@@ -22,7 +22,5 @@ How to use the script
 - The script will loop through all the worksheets in the workbook, calculate the required information, and output the results in a summary table within each worksheet. Positive and negative yearly changes will be highlighted in green and red, respectively, using conditional formatting as shown below.
 
 ![image](https://user-images.githubusercontent.com/122655370/230271155-7ec0628f-83cc-48f0-a860-ba8c623da60c.png)
-![image](https://user-images.githubusercontent.com/122655370/230271183-0400aff7-b599-4bbb-bb29-1399c66e1ea7.png)
-![image](https://user-images.githubusercontent.com/122655370/230271230-7a9163ac-270b-4d0d-a9f9-2f31aabbda7b.png)
-![image](https://user-images.githubusercontent.com/122655370/230271267-4c81b256-d2e7-448d-afb1-e1abd82f588b.png)
+
 
