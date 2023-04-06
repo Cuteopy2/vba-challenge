@@ -2,7 +2,7 @@
 
 Multiple Year Stock Analysis - VBA Script
 
-This VBA script analyzes stocks listed in multiple worksheets in an Excel workbook. Each worksheet contains a table with the following columns: <ticker>, <date>, <open>, <high>, <low>, <close>, and <vol>. The script performs the following calculations:
+This VBA script analyzes stocks listed in multiple worksheets in an Excel workbook. Each worksheet contains a table with the following columns: ticker, date, open, high, low, close, and vol. The script performs the following calculations:
 
 Yearly change from the opening price at the beginning of a given year to the closing price at the end of that year
 The percentage change from the opening price at the beginning of a given year to the closing price at the end of that year
