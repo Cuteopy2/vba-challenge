@@ -18,7 +18,7 @@ Additionally, the script uses conditional formatting to highlight positive chang
 
 How to use the script
 - Press ALT + F8 to open the "Macro" dialog box.
-- Select the macro named "mdStocksAnalysis" and click "Run" to execute the VBA script.
+- Select the macro named "mdStocksAnalysis" and Alphabetical_testing respectively, click "Run" to execute the VBA script.
 - The script will loop through all the worksheets in the workbook, calculate the required information, and output the results in a summary table within each worksheet. Positive and negative yearly changes will be highlighted in green and red, respectively, using conditional formatting.
 
 
